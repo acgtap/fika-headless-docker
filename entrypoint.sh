@@ -54,7 +54,9 @@ elif [[ "$fsync" == "true" ]]; then
 fi
 
 if [ "$USE_PELICAN" == "true" ]; then
-    echo "Running in Pelican mode as user $(whoami)"
+    # Get current user info more reliably
+    current_user=$(id -un 2>/dev/null || echo "user$(id -u)")
+    echo "Running in Pelican mode as user $current_user"
     pelican=true
 fi
 
@@ -144,7 +146,9 @@ use_pelican() {
     
     # Run the Server
     echo "Modified Startup: ${MODIFIED_STARTUP}"
-    echo "Running Pelican with user $(whoami)"
+    # Get current user info more reliably
+    current_user=$(id -un 2>/dev/null || echo "user$(id -u)")
+    echo "Running Pelican with user $current_user"
     eval ${MODIFIED_STARTUP}
 }
 
@@ -152,7 +156,11 @@ init_pelican_wineprefix() {
     echo "Creating wineprefix for pelican"
     export WINEPREFIX=/home/container/.wine
     cp -r -u /.wine /home/container
-    chown -R $(whoami) /home/container/.wine
+    # Use numeric user ID instead of username for chown to avoid whoami issues
+    current_uid=$(id -u)
+    current_gid=$(id -g)
+    echo "Setting ownership to UID:GID $current_uid:$current_gid"
+    chown -R $current_uid:$current_gid /home/container/.wine
 }
 
 # Main client function. Should block until client has exited

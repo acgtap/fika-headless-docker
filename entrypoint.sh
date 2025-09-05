@@ -192,7 +192,7 @@ run_client() {
     # Blocking function
     echo "Waiting for EFT to exit"
     tail --pid=$eft_pid -f /dev/null
-
+    
     if [[ "$save_log_on_exit" == "true" ]]; then
         timestamp=$(date +%Y%m%dT%H%M)
         cp $bepinex_logfile $eft_dir/BepInEx/LogOutput-$timestamp.log

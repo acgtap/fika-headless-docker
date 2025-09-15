@@ -57,7 +57,7 @@ RUN git clone https://github.com/Frogging-Family/wine-tkg-git.git wine-tkg-ntsyn
 WORKDIR /opt/wine-tkg-ntsync/
 # Temporarily fix build failure ever since pulling from upstream wine-tkg-git
 # RUN cd wine-tkg-git && git checkout 26c0f63b0b1e5a699e181ccb40599ca36ae30a5b
-# RUN git checkout 26f451ba853181638f1d49d12ada0ff505aade62
+RUN git checkout 26c0f63b0b1e5a699e181ccb40599ca36ae30a5b
 
 RUN cd wine-tkg-git && \
     sed -i 's/ntsync="false"/ntsync="true"/' ./customization.cfg && \
